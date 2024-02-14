@@ -7,6 +7,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.Surface((32, 32))
         self.image.fill('red')
         self.rect = self.image.get_frect(center=position)
+        self.screen_width = pygame.display.get_surface().get_width()
 
         self.direction = pygame.Vector2()
         self.speed = 400
@@ -23,7 +24,12 @@ class Player(pygame.sprite.Sprite):
         self.direction.x = input_vector.normalize().x if input_vector else input_vector.x
 
     def move(self, dt):
-        self.rect.x += self.direction.x * self.speed * dt
+        if self.rect.left < 0:
+            self.rect.x = 0
+        elif self.rect.right > self.screen_width:
+            self.rect.right = self.screen_width
+        else:
+            self.rect.x += self.direction.x * self.speed * dt
 
     def update(self, dt):
         self.input()
