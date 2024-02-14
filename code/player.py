@@ -1,12 +1,15 @@
 import pygame
+from missile import Missile
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, groups, position):
         super().__init__(groups)
+        self.groups = groups
         self.image = pygame.image.load("images/Ship2.png")
         # self.image.fill('red')
         self.rect = self.image.get_frect(center=position)
+
         self.screen_width = pygame.display.get_surface().get_width()
 
         self.direction = pygame.Vector2()
@@ -20,6 +23,9 @@ class Player(pygame.sprite.Sprite):
             input_vector.x -= 1
         if keys[pygame.K_RIGHT]:
             input_vector.x += 1
+
+        if keys[pygame.K_SPACE]:
+            Missile(self.groups, self.rect.center)
 
         self.direction.x = input_vector.normalize().x if input_vector else input_vector.x
 
