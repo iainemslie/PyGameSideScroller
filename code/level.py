@@ -12,9 +12,9 @@ class Level:
 
     def setup(self):
         Player(self.player_group, (self.display_surface.get_width() /
-               2, self.display_surface.get_height() - 32))
+               2, self.display_surface.get_height() - 64))
 
     def run(self, dt):
-        self.display_surface.fill('beige')
+        self.display_surface.fill('black')
         self.player_group.update(dt)
         self.player_group.draw(self.display_surface)

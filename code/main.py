@@ -8,8 +8,10 @@ class Game:
     def __init__(self):
         pygame.init()
         self.display_surface = pygame.display.set_mode(
-            (640, 480))
+            (640, 480), pygame.NOFRAME)
         pygame.display.set_caption("Side Scroller")
+
+        pygame.mouse.set_visible(False)
 
         self.clock = pygame.time.Clock()
 
