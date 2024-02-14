@@ -31,8 +31,8 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_SPACE] and not self.missile_timer.active:
             self.missile_timer.activate()
-            Missile(self.groups,
-                    (self.rect.center[0], self.rect.top))
+            self.missile_list.append(Missile(self.groups,
+                                             (self.rect.center[0], self.rect.top)))
 
         self.direction.x = input_vector.normalize().x if input_vector else input_vector.x
 
@@ -44,7 +44,13 @@ class Player(pygame.sprite.Sprite):
         else:
             self.rect.x += self.direction.x * self.speed * dt
 
+    def destroy_missiles(self):
+        for missile in self.missile_list:
+            if missile.rect.bottom < 0:
+                self.missile_list.pop()
+
     def update(self, dt):
         self.input()
         self.missile_timer.update()
         self.move(dt)
+        self.destroy_missiles()
