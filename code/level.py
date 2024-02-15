@@ -4,25 +4,19 @@ from enemy import Enemy
 from timer import Timer
 from random import randint
 from os.path import join
+# from background import Background
 
 
 class Level:
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
-        # resources\scrolling_city_background\1 Backgrounds\1\Night\1.png
-        self.bg_image_0 = pygame.image.load(join(
-            'resources', 'scrolling_city_background', '1 Backgrounds', '1', 'Night', '1.png'))
-        self.bg_image_1 = pygame.image.load(join(
-            'resources', 'scrolling_city_background', '1 Backgrounds', '1', 'Night', '2.png'))
-        self.bg_image_2 = pygame.image.load(join(
-            'resources', 'scrolling_city_background', '1 Backgrounds', '1', 'Night', '3.png'))
-        self.bg_image_3 = pygame.image.load(join(
-            'resources', 'scrolling_city_background', '1 Backgrounds', '1', 'Night', '4.png'))
-        self.bg_image_4 = pygame.image.load(join(
-            'resources', 'scrolling_city_background', '1 Backgrounds', '1', 'Night', '5.png'))
 
         self.all_sprites = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
+
+        bg_path = join('resources', 'scrolling_city_background',
+                       '1 Backgrounds', '1', 'Night', '1.png')
+        self.bg = self.image = pygame.image.load(bg_path)
 
         self.enemy_list = []
 
@@ -31,7 +25,7 @@ class Level:
         self.setup()
 
     def setup(self):
-        Player((64, SCREEN_HEIGHT / 2),
+        Player((32, SCREEN_HEIGHT / 2),
                self.all_sprites,
                self.collision_sprites)
         self.spawn_timer.activate()
@@ -50,11 +44,8 @@ class Level:
                 self.enemy_list.pop()
 
     def run(self, dt):
-        self.display_surface.blit(self.bg_image_0, (0, 0))
-        self.display_surface.blit(self.bg_image_1, (0, 0))
-        self.display_surface.blit(self.bg_image_2, (0, 0))
-        self.display_surface.blit(self.bg_image_3, (0, 0))
-        self.display_surface.blit(self.bg_image_4, (0, 0))
+        self.display_surface.fill('black')
+        self.display_surface.blit(self.bg, (0, 0))
         self.spawn_timer.update()
         self.spawn_enemies()
         self.all_sprites.update(dt)

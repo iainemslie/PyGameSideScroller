@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__(groups)
         self.groups = groups
         self.image = pygame.image.load("images/Ship2.png")
-        self.rect = self.image.get_frect(center=position)
+        self.rect = self.image.get_frect(topleft=position)
 
         self.collision_sprites = collision_sprites
 
