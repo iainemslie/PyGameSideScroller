@@ -4,19 +4,20 @@ from timer import Timer
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, groups, position):
+    def __init__(self, position, groups, collision_sprites):
         super().__init__(groups)
         self.groups = groups
         self.image = pygame.image.load("images/Ship2.png")
-        # self.image.fill('red')
         self.rect = self.image.get_frect(center=position)
 
         self.screen_width = pygame.display.get_surface().get_width()
 
+        self.collision_sprites = collision_sprites
+
         self.direction = pygame.Vector2()
         self.speed = 400
 
-        self.missile_timer = Timer(100)
+        self.missile_timer = Timer(200)
 
         self.missile_list = []
 
@@ -44,6 +45,12 @@ class Player(pygame.sprite.Sprite):
         else:
             self.rect.x += self.direction.x * self.speed * dt
 
+    def check_collisions(self):
+        for sprite in self.collision_sprites:
+            for missile in self.missile_list:
+                if sprite.rect.colliderect(missile.rect):
+                    sprite.image.fill('blue')
+
     def destroy_missiles(self):
         for missile in self.missile_list:
             if missile.rect.bottom < 0:
@@ -53,4 +60,5 @@ class Player(pygame.sprite.Sprite):
         self.input()
         self.missile_timer.update()
         self.move(dt)
+        self.check_collisions()
         self.destroy_missiles()
