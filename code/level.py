@@ -4,7 +4,7 @@ from enemy import Enemy
 from timer import Timer
 from random import randint
 from os.path import join
-# from background import Background
+from bg_layer import BGLayer
 
 
 class Level:
@@ -17,6 +17,18 @@ class Level:
         bg_path = join('resources', 'scrolling_city_background',
                        '1 Backgrounds', '1', 'Night', '1.png')
         self.bg = self.image = pygame.image.load(bg_path)
+
+        bg2_path = join('resources', 'scrolling_city_background',
+                        '1 Backgrounds', '1', 'Night', '2.png')
+        bg2 = BGLayer(self.all_sprites, (0, 0), bg2_path, 15)
+
+        bg3_path = join('resources', 'scrolling_city_background',
+                        '1 Backgrounds', '1', 'Night', '3.png')
+        bg3 = BGLayer(self.all_sprites, (0, 0), bg3_path, 20)
+
+        bg5_path = join('resources', 'scrolling_city_background',
+                        '1 Backgrounds', '1', 'Night', '5.png')
+        bg5 = BGLayer(self.all_sprites, (0, 0), bg5_path, 25)
 
         self.enemy_list = []
 

@@ -1,7 +1,7 @@
 from settings import *
 
 
-class Background(pygame.sprite.Sprite):
+class BGLayer(pygame.sprite.Sprite):
     def __init__(self, groups, position, image_path, speed):
         super().__init__(groups)
         self.groups = groups
