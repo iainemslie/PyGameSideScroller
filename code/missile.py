@@ -9,11 +9,11 @@ class Missile(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(center=position)
 
         self.direction = pygame.Vector2()
-        self.direction.y = -1
+        self.direction.x = 1
         self.speed = 400
 
     def move(self, dt):
-        self.rect.y += self.direction.y * self.speed * dt
+        self.rect.x += self.direction.x * self.speed * dt
 
     def update(self, dt):
         self.move(dt)

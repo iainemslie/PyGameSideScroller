@@ -14,8 +14,8 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = 400
 
     def move(self, dt):
-        self.direction.y = 1
-        self.rect.y += self.direction.y * self.speed * dt
+        self.direction.x = -1
+        self.rect.x += self.direction.x * self.speed * dt
 
     def update(self, dt):
         self.move(dt)

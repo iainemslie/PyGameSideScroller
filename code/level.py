@@ -1,4 +1,4 @@
-import pygame
+from settings import *
 from player import Player
 from enemy import Enemy
 from timer import Timer
@@ -8,8 +8,6 @@ from random import randint
 class Level:
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
-        self.screen_width = self.display_surface.get_width()
-        self.screen_height = self.display_surface.get_height()
 
         self.all_sprites = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
@@ -21,22 +19,22 @@ class Level:
         self.setup()
 
     def setup(self):
-        Player((self.screen_width / 2, self.screen_height - 64),
+        Player((100, SCREEN_HEIGHT / 2),
                self.all_sprites,
                self.collision_sprites)
         self.spawn_timer.activate()
 
     def spawn_enemies(self):
-        spawn_position_x = randint(32, self.screen_width - 32)
+        spawn_position_y = randint(32, SCREEN_HEIGHT - 32)
         if not self.spawn_timer.active:
             self.enemy_list.append(
                 Enemy((self.all_sprites, self.collision_sprites),
-                      (spawn_position_x, -100)))
+                      (SCREEN_WIDTH + 100, spawn_position_y)))
             self.spawn_timer.activate()
 
     def destroy_enemies(self):
         for enemy in self.enemy_list:
-            if enemy.rect.top > self.screen_height:
+            if enemy.rect.right < 0:
                 self.enemy_list.pop()
 
     def run(self, dt):

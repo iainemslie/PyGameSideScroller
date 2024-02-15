@@ -1,4 +1,4 @@
-import pygame
+from settings import *
 import sys
 from player import Player
 from level import Level
@@ -10,7 +10,7 @@ class Game:
         # self.display_surface = pygame.display.set_mode(
         #     (640, 480), pygame.NOFRAME)
         self.display_surface = pygame.display.set_mode(
-            (640, 480))
+            (SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Side Scroller")
 
         pygame.mouse.set_visible(False)

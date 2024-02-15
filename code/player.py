@@ -1,4 +1,4 @@
-import pygame
+from settings import *
 from missile import Missile
 from timer import Timer
 
@@ -10,14 +10,12 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load("images/Ship2.png")
         self.rect = self.image.get_frect(center=position)
 
-        self.screen_width = pygame.display.get_surface().get_width()
-
         self.collision_sprites = collision_sprites
 
         self.direction = pygame.Vector2()
         self.speed = 400
 
-        self.missile_timer = Timer(200)
+        self.missile_timer = Timer(250)
 
         self.missile_list = []
 
@@ -25,25 +23,25 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         input_vector = pygame.Vector2()
 
-        if keys[pygame.K_LEFT]:
-            input_vector.x -= 1
-        if keys[pygame.K_RIGHT]:
-            input_vector.x += 1
+        if keys[pygame.K_UP]:
+            input_vector.y -= 1
+        if keys[pygame.K_DOWN]:
+            input_vector.y += 1
 
         if keys[pygame.K_SPACE] and not self.missile_timer.active:
             self.missile_timer.activate()
             self.missile_list.append(Missile(self.groups,
-                                             (self.rect.center[0], self.rect.top)))
+                                             (self.rect.center[0] + 32, self.rect.center[1])))
 
-        self.direction.x = input_vector.normalize().x if input_vector else input_vector.x
+        self.direction.y = input_vector.normalize().y if input_vector else input_vector.y
 
     def move(self, dt):
-        if self.rect.left < 0:
-            self.rect.x = 0
-        elif self.rect.right > self.screen_width:
-            self.rect.right = self.screen_width
+        if self.rect.top < 0:
+            self.rect.y = 0
+        elif self.rect.bottom > SCREEN_HEIGHT:
+            self.rect.bottom = SCREEN_HEIGHT
         else:
-            self.rect.x += self.direction.x * self.speed * dt
+            self.rect.y += self.direction.y * self.speed * dt
 
     def check_collisions(self):
         for sprite in self.collision_sprites:
@@ -53,7 +51,7 @@ class Player(pygame.sprite.Sprite):
 
     def destroy_missiles(self):
         for missile in self.missile_list:
-            if missile.rect.bottom < 0:
+            if missile.rect.left > SCREEN_WIDTH:
                 self.missile_list.pop()
 
     def update(self, dt):
