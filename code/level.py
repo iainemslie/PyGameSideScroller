@@ -37,7 +37,7 @@ class Level:
         self.setup()
 
     def setup(self):
-        Player((32, SCREEN_HEIGHT / 2),
+        Player((16, SCREEN_HEIGHT / 2),
                self.all_sprites,
                self.collision_sprites)
         self.spawn_timer.activate()
