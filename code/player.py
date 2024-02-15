@@ -1,14 +1,17 @@
 from settings import *
 from missile import Missile
 from timer import Timer
+from os.path import join
+from sprites import Sprite
 
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, position, groups, collision_sprites):
-        super().__init__(groups)
+class Player(Sprite):
+    def __init__(self, position, image_path, groups, collision_sprites, z=10):
+        self.image = pygame.image.load(join(image_path))
+        super().__init__(position, self.image, groups, z)
         self.groups = groups
-        self.image = pygame.image.load("images/Ship2.png")
         self.rect = self.image.get_frect(topleft=position)
+        self.z = z
 
         self.collision_sprites = collision_sprites
 
@@ -30,8 +33,11 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_SPACE] and not self.missile_timer.active:
             self.missile_timer.activate()
-            self.missile_list.append(Missile(self.groups,
-                                             (self.rect.center[0] + 32, self.rect.center[1])))
+            self.missile_list.append(Missile((self.rect.center[0] + 32, self.rect.center[1]),
+                                             '',
+                                             self.groups,
+                                             10,
+                                             ))
 
         self.direction.y = input_vector.normalize().y if input_vector else input_vector.y
 

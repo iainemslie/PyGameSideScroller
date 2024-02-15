@@ -1,12 +1,15 @@
 import pygame
+from sprites import Sprite
 
 
-class Missile(pygame.sprite.Sprite):
-    def __init__(self, groups, position):
-        super().__init__(groups)
+class Missile(Sprite):
+    def __init__(self, position, image_path, groups, z=10):
         self.image = pygame.Surface((4, 4))
         self.image.fill('lightblue')
+        super().__init__(position, self.image, groups, z)
+        self.groups = groups
         self.rect = self.image.get_frect(center=position)
+        self.z = z
 
         self.direction = pygame.Vector2()
         self.direction.x = 1

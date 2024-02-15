@@ -4,31 +4,17 @@ from enemy import Enemy
 from timer import Timer
 from random import randint
 from os.path import join
-from bg_layer import BGLayer
+from sprites import BGSprite
+from utils import get_bg_paths
+from groups import AllSprites
 
 
 class Level:
     def __init__(self):
         self.display_surface = pygame.display.get_surface()
 
-        self.all_sprites = pygame.sprite.Group()
+        self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
-
-        bg_path = join('resources', 'scrolling_city_background',
-                       '1 Backgrounds', '1', 'Night', '1.png')
-        self.bg = self.image = pygame.image.load(bg_path)
-
-        bg2_path = join('resources', 'scrolling_city_background',
-                        '1 Backgrounds', '1', 'Night', '2.png')
-        bg2 = BGLayer(self.all_sprites, (0, 0), bg2_path, 15)
-
-        bg3_path = join('resources', 'scrolling_city_background',
-                        '1 Backgrounds', '1', 'Night', '3.png')
-        bg3 = BGLayer(self.all_sprites, (0, 0), bg3_path, 20)
-
-        bg5_path = join('resources', 'scrolling_city_background',
-                        '1 Backgrounds', '1', 'Night', '5.png')
-        bg5 = BGLayer(self.all_sprites, (0, 0), bg5_path, 25)
 
         self.enemy_list = []
 
@@ -37,17 +23,37 @@ class Level:
         self.setup()
 
     def setup(self):
+        self.create_background()
+        print(player_img_path)
         Player((16, SCREEN_HEIGHT / 2),
+               player_img_path,
                self.all_sprites,
-               self.collision_sprites)
+               self.collision_sprites,
+               10)
         self.spawn_timer.activate()
+
+    def create_background(self):
+        self.bg_paths = get_bg_paths(level1["background"])
+
+        bg_path = join(self.bg_paths[0])
+        self.bg = pygame.image.load(bg_path)
+
+        bg2_path = join(self.bg_paths[1])
+        bg2 = BGSprite((0, 0), bg2_path, self.all_sprites, 15, 2)
+
+        bg3_path = join(self.bg_paths[2])
+        bg3 = BGSprite((0, 0), bg3_path, self.all_sprites, 25, 3)
+
+        bg5_path = join(self.bg_paths[4])
+        bg5 = BGSprite((0, 0), bg5_path, self.all_sprites, 45, 4)
 
     def spawn_enemies(self):
         spawn_position_y = randint(32, SCREEN_HEIGHT - 32)
         if not self.spawn_timer.active:
             self.enemy_list.append(
-                Enemy((self.all_sprites, self.collision_sprites),
-                      (SCREEN_WIDTH + 100, spawn_position_y)))
+                Enemy((SCREEN_WIDTH + 100, spawn_position_y),
+                      enemy_img_path,
+                      (self.all_sprites, self.collision_sprites), 10))
             self.spawn_timer.activate()
 
     def destroy_enemies(self):

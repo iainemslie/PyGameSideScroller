@@ -1,14 +1,15 @@
 import pygame
+from os.path import join
+from sprites import Sprite
 
 
-class Enemy(pygame.sprite.Sprite):
-    def __init__(self, groups, position):
-        super().__init__(groups)
+class Enemy(Sprite):
+    def __init__(self, position, image_path, groups, z=10):
+        self.image = pygame.image.load(join(image_path))
+        super().__init__(position, self.image, groups, z)
         self.groups = groups
-        # self.image = pygame.Surface((32, 32))
-        self.image = pygame.image.load("images/Ship1.png")
-        # self.image.fill('red')
         self.rect = self.image.get_frect(center=position)
+        self.z = z
 
         self.direction = pygame.Vector2()
         self.speed = 400
