@@ -55,8 +55,6 @@ class Player(Sprite):
                     sprite.kill()
                     missile.kill()
 
-                print(self.missile_sprites)
-
     def update(self, dt):
         self.input()
         self.missile_timer.update()
