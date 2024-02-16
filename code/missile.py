@@ -1,4 +1,4 @@
-import pygame
+from settings import *
 from sprites import Sprite
 
 
@@ -18,5 +18,10 @@ class Missile(Sprite):
     def move(self, dt):
         self.rect.x += self.direction.x * self.speed * dt
 
+    def check_offscreen(self):
+        if self.rect.x > SCREEN_WIDTH + 10:
+            self.kill()
+
     def update(self, dt):
         self.move(dt)
+        self.check_offscreen()

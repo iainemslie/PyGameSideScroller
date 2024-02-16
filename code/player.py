@@ -6,10 +6,10 @@ from sprites import Sprite
 
 
 class Player(Sprite):
-    def __init__(self, position, image_path, groups, collision_sprites, z=10):
+    def __init__(self, position, image_path, all_sprites, collision_sprites, missile_sprites, z=10):
         self.image = pygame.image.load(join(image_path))
-        super().__init__(position, self.image, groups, z)
-        self.groups = groups
+        super().__init__(position, self.image, (all_sprites), z)
+        self.all_sprites = all_sprites
         self.rect = self.image.get_frect(topleft=position)
         self.z = z
 
@@ -19,8 +19,7 @@ class Player(Sprite):
         self.speed = 400
 
         self.missile_timer = Timer(250)
-
-        self.missile_list = []
+        self.missile_sprites = missile_sprites
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -33,11 +32,11 @@ class Player(Sprite):
 
         if keys[pygame.K_SPACE] and not self.missile_timer.active:
             self.missile_timer.activate()
-            self.missile_list.append(Missile((self.rect.center[0] + 32, self.rect.center[1]),
-                                             '',
-                                             self.groups,
-                                             10,
-                                             ))
+            Missile((self.rect.center[0] + 32, self.rect.center[1]),
+                    '',
+                    (self.all_sprites, self.missile_sprites),
+                    10,
+                    )
 
         self.direction.y = input_vector.normalize().y if input_vector else input_vector.y
 
@@ -51,18 +50,15 @@ class Player(Sprite):
 
     def check_collisions(self):
         for sprite in self.collision_sprites:
-            for missile in self.missile_list:
+            for missile in self.missile_sprites:
                 if sprite.rect.colliderect(missile.rect):
-                    sprite.image.fill('blue')
+                    sprite.kill()
+                    missile.kill()
 
-    def destroy_missiles(self):
-        for missile in self.missile_list:
-            if missile.rect.left > SCREEN_WIDTH:
-                self.missile_list.pop()
+                print(self.missile_sprites)
 
     def update(self, dt):
         self.input()
         self.missile_timer.update()
         self.move(dt)
         self.check_collisions()
-        self.destroy_missiles()

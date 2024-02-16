@@ -18,5 +18,10 @@ class Enemy(Sprite):
         self.direction.x = -1
         self.rect.x += self.direction.x * self.speed * dt
 
+    def check_offscreen(self):
+        if self.rect.x < 0:
+            self.kill()
+
     def update(self, dt):
         self.move(dt)
+        self.check_offscreen()

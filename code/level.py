@@ -15,6 +15,7 @@ class Level:
 
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
+        self.missile_sprites = pygame.sprite.Group()
 
         self.enemy_list = []
 
@@ -29,6 +30,7 @@ class Level:
                player_img_path,
                self.all_sprites,
                self.collision_sprites,
+               self.missile_sprites,
                10)
         self.spawn_timer.activate()
 
@@ -56,11 +58,6 @@ class Level:
                       (self.all_sprites, self.collision_sprites), 10))
             self.spawn_timer.activate()
 
-    def destroy_enemies(self):
-        for enemy in self.enemy_list:
-            if enemy.rect.right < 0:
-                self.enemy_list.pop()
-
     def run(self, dt):
         self.display_surface.fill('black')
         self.display_surface.blit(self.bg, (0, 0))
@@ -68,4 +65,3 @@ class Level:
         self.spawn_enemies()
         self.all_sprites.update(dt)
         self.all_sprites.draw(self.display_surface)
-        self.destroy_enemies()
