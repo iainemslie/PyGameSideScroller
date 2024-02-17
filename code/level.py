@@ -18,8 +18,14 @@ class Level:
         self.missile_sprites = pygame.sprite.Group()
 
         self.enemy_list = []
-
         self.spawn_timer = Timer(1000)
+
+        self.font = pygame.font.Font(join("images", "pixelfont.ttf"))
+        self.score = 0
+        self.score_string = f"Score: {self.score}"
+        self.text = self.font.render(self.score_string, False, 'white')
+        self.textRect = self.text.get_rect()
+        self.textRect.center = (SCREEN_WIDTH / 2, 16)
 
         self.setup()
 
@@ -59,3 +65,4 @@ class Level:
         self.spawn_enemies()
         self.all_sprites.update(dt)
         self.all_sprites.draw(self.display_surface)
+        self.display_surface.blit(self.text, self.textRect)
