@@ -34,15 +34,16 @@ class Level:
         self.spawn_timer.activate()
 
     def create_background(self):
-        # sky background
-        bg_path = get_bg_paths(level1[0])
-        self.bg = pygame.image.load(bg_path[0])
-
-        for z in range(0, 7):
+        num_in_layer = 8
+        for z in range(0, num_in_layer):
             bg_paths = get_bg_paths(level1[z])
             for index, path in enumerate(bg_paths):
-                BGSprite((SCREEN_WIDTH * z, 0), path,
-                         self.all_sprites, (index + 1) * 15, index + 1)
+                BGSprite(position=(SCREEN_WIDTH * z, 0),
+                         image_path=path,
+                         groups=self.all_sprites,
+                         speed=index * 50,
+                         z=index,
+                         num_in_layer=8)
 
     def spawn_enemies(self):
         spawn_position_y = randint(32, SCREEN_HEIGHT - 32)
@@ -54,8 +55,6 @@ class Level:
             self.spawn_timer.activate()
 
     def run(self, dt):
-        self.display_surface.fill('black')
-        self.display_surface.blit(self.bg, (0, 0))
         self.spawn_timer.update()
         self.spawn_enemies()
         self.all_sprites.update(dt)

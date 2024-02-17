@@ -5,7 +5,7 @@ from sprites import Sprite
 class Missile(Sprite):
     def __init__(self, position, image_path, groups, z=10):
         self.image = pygame.Surface((4, 4))
-        self.image.fill('lightblue')
+        self.image.fill('turquoise1')
         super().__init__(position, self.image, groups, z)
         self.groups = groups
         self.rect = self.image.get_frect(center=position)

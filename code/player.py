@@ -54,6 +54,9 @@ class Player(Sprite):
                 if sprite.rect.colliderect(missile.rect):
                     sprite.kill()
                     missile.kill()
+            # collide with player
+            if sprite.rect.colliderect(self.rect):
+                sprite.kill()
 
     def update(self, dt):
         self.input()
