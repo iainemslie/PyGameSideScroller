@@ -6,6 +6,8 @@ SCREEN_HEIGHT = 324
 player_img_path = "images\player\Ship2.png"
 enemy_img_path = "images\enemies\Ship1.png"
 
+ANIMATION_SPEED = 6
+
 level1 = {
     0: ("resources", "scrolling_city_background", "1 Backgrounds", "1", "Night"),
     1: ("resources", "scrolling_city_background", "1 Backgrounds", "2", "Night"),

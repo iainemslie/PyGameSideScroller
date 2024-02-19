@@ -8,7 +8,7 @@ class Game:
     def __init__(self):
         pygame.init()
         # self.display_surface = pygame.display.set_mode(
-        #     (640, 480), pygame.NOFRAME)
+        #     (SCREEN_WIDTH, SCREEN_HEIGHT), pygame.NOFRAME)
         self.display_surface = pygame.display.set_mode(
             (SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Side Scroller")
